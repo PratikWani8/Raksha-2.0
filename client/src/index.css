@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+body {
+  background-color: #fff5f8;
+  font-family: 'Poppins', sans-serif;
+}
+
+.audiowide {
+  font-family: 'Audiowide', cursive;
+}
