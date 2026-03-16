@@ -52,17 +52,17 @@ function ReviewCard({ review }) {
 
 function Reviews() {
   return (
-    <section className="relative bg-gradient-to-r from-blue-700 to-blue-500 py-24 px-6 text-center overflow-hidden">
+    <section className="relative bg-linear-to-r from-blue-700 to-blue-500 py-24 px-6 text-center overflow-hidden">
 
       <h2 className="text-4xl font-bold text-white mb-16">
         What Our Users Say
       </h2>
 
       {/* Fade Left */}
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-blue-700 to-transparent z-10"></div>
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-32 bg-linear-to-r from-blue-700 to-transparent z-10"></div>
 
       {/* Fade Right */}
-      <div className="pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-blue-500 to-transparent z-10"></div>
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-32 bg-linear-to-l from-blue-500 to-transparent z-10"></div>
 
       {/* First Slider (Reverse) */}
       <Swiper
@@ -84,7 +84,7 @@ function Reviews() {
   className="mb-12"
 >
         {reviews.map((review, index) => (
-          <SwiperSlide key={index} className="!w-auto">
+          <SwiperSlide key={index} className="w-auto!">
             <ReviewCard review={review} />
           </SwiperSlide>
         ))}
@@ -108,7 +108,7 @@ function Reviews() {
   }}
 >
         {reviews.map((review, index) => (
-          <SwiperSlide key={index} className="!w-auto">
+          <SwiperSlide key={index} className="w-auto!">
             <ReviewCard review={review} />
           </SwiperSlide>
         ))}
