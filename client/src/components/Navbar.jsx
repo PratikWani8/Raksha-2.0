@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { motion } from "framer-motion";
+import RegisterModal from "../components/RegisterModal";
+import LoginModal from "../components/LoginModal";
 
 function Navbar() {
-  const [open, setOpen] = useState(false);
 
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const linkStyle = ({ isActive }) =>
     `transition duration-300 ${
       isActive
@@ -16,13 +19,16 @@ function Navbar() {
   return (
     <>
       {/* Top Banner */}
-      <div className="bg-[#e91e63] text-white flex justify-center items-center gap-3 py-3 text-sm font-medium border-b border-white/30">
+      <div className="bg-[#e91e63] text-white flex justify-center items-center gap-3 py-3 text-md font-medium border-b border-white/30">
         <p>
           🚨 Emergency Helpline: 112 | Women Helpline: 181 | Need Help Urgently?
         </p>
-        <button className="bg-white text-[#e91e63] px-4 py-1 rounded-full font-semibold hover:scale-105 transition">
+        
+        <button onClick={()=>navigate("/guest-sos")}
+        className="bg-white text-[#e91e63] px-4 py-1 rounded-full font-semibold hover:scale-105 transition">
           Get Help
         </button>
+        
       </div>
 
       {/* Navbar */}
@@ -31,7 +37,8 @@ function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         className="sticky top-6 z-50 px-6 mt-4"
       >
-        <div className="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-full border border-[#e91e63]/90 px-6 py-4 flex justify-between items-center">
+
+        <div className="max-w-6xl mx-auto backdrop-blur-3xl rounded-full border border-[#e91e63]/90 px-6 py-4 flex justify-between items-center">
 
           {/* Logo */}
           <h1 className="text-[#e91e63] text-2xl font-bold">
@@ -53,9 +60,14 @@ function Navbar() {
               Nearby Police
             </NavLink>
 
-            <NavLink to="/user" className={linkStyle}>
-              User
-            </NavLink>
+            {/* User → Login Modal */}
+            <LoginModal
+              trigger={
+                <button className="text-gray-700 hover:text-[#e91e63] transition">
+                  User
+                </button>
+              }
+            />
 
             <NavLink to="/admin" className={linkStyle}>
               Admin
@@ -63,20 +75,26 @@ function Navbar() {
 
           </div>
 
-          {/* Start Button (Desktop Only) */}
-          <button className="hidden md:block bg-[#e91e63] text-white px-5 py-2 rounded-full hover:bg-pink-700 transition">
-            Start Protection
-          </button>
+          {/* Start Protection Button */}
+          <RegisterModal
+            trigger={
+              <button className="hidden md:block bg-[#e91e63] text-white px-5 py-2 rounded-full hover:bg-pink-700 transition">
+                Start Protection
+              </button>
+            }
+          />
 
           {/* Mobile Menu Icon */}
           <Menu
             className="md:hidden text-[#e91e63] cursor-pointer"
             onClick={() => setOpen(!open)}
           />
+
         </div>
 
         {/* Mobile Dropdown */}
         {open && (
+
           <div className="md:hidden mt-3 bg-white rounded-2xl shadow-xl border border-gray-200 p-6 flex flex-col gap-4 font-medium">
 
             <NavLink to="/" className={linkStyle} onClick={() => setOpen(false)}>
@@ -91,20 +109,21 @@ function Navbar() {
               Nearby Police
             </NavLink>
 
-            <NavLink to="/user" className={linkStyle} onClick={() => setOpen(false)}>
-              User
-            </NavLink>
-
-            <NavLink to="/admin" className={linkStyle} onClick={() => setOpen(false)}>
-              Admin
-            </NavLink>
-
-            <button className="bg-[#e91e63] text-white px-5 py-2 rounded-full hover:bg-pink-700 transition mt-2">
-              Start Protection
-            </button>
+            {/* User Login */}
+            <LoginModal
+              trigger={
+                <button
+                  className="text-left text-gray-700 hover:text-[#e91e63]"
+                >
+                  User
+                </button>
+              }
+            />
 
           </div>
+
         )}
+
       </motion.div>
     </>
   );
