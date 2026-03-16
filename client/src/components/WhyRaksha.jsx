@@ -39,7 +39,7 @@ function WhyRaksha() {
     <section className="bg-white py-20 px-6">
       <div className="max-w-6xl mx-auto text-center">
 
-        <h2 className="text-4xl font-bold text-primary mb-4">
+        <h2 className="text-4xl font-bold text-[#e91e63] mb-4">
           Why Choose Raksha?
         </h2>
 
@@ -56,12 +56,12 @@ function WhyRaksha() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-softPink border border-primary rounded-2xl p-8 text-center shadow-md"
+              className="bg-[#fff4f8] border border-[#e91e63] rounded-2xl p-8 text-center shadow-md"
             >
-              <div className="text-primary mb-4 flex justify-center">
+              <div className="text-[#e91e63] mb-4 flex justify-center">
                 {item.icon}
               </div>
-              <h3 className="font-semibold text-lg mb-2 text-primary">
+              <h3 className="font-semibold text-lg mb-2 text-[#e91e63]">
                 {item.title}
               </h3>
               <p className="text-gray-600 text-sm">
