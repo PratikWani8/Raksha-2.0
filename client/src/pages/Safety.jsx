@@ -59,16 +59,16 @@ function Safety() {
                   behavior: "smooth",
                 })
               }
-              className="bg-[#e91e63] text-white px-6 py-3 rounded-full 
-                         hover:scale-105 transition duration-300 shadow-md"
+              className="bg-[#e91e63] text-white px-6 py-3 font-semibold
+              rounded-full hover:scale-105 transition duration-300 shadow-md"
             >
-              Get Started →
+              Get Started ➜
             </button>
 
             <button
               onClick={() => navigate("/police")}
-              className="border-2 border-[#e91e63] text-[#e91e63] px-6 py-3 rounded-full 
-                         hover:bg-[#e91e63] hover:text-white transition duration-300"
+              className="border-2 border-[#e91e63] text-[#e91e63] px-6 py-3 font-semibold 
+              rounded-full hover:bg-[#e91e63] hover:text-white transition duration-300"
             >
               Nearby Police
             </button>
@@ -81,7 +81,7 @@ function Safety() {
           <img
             src={safetyImg}
             alt="Safety Tips Illustration"
-            className="w-110 drop-shadow-2xl"
+            className="w-130 drop-shadow-2xl"
           />
         </div>
 
