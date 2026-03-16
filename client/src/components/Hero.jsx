@@ -1,10 +1,9 @@
-import heroImg from "../assets/hero_img.png";
+import heroImg from "../assets/r2.0_logo.png";
 import { motion } from "framer-motion";
 
 function Hero() {
   return (
-    <section className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-6 py-16 md:py-24 gap-12">
-
+     <section className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-6 py-10 md:py-16 gap-12">
       {/* Left Content */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -13,7 +12,7 @@ function Hero() {
         className="max-w-xl text-center md:text-left"
       >
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-[#ffd6e5] text-[#e91e63] px-4 py-2 rounded-full mb-6">
+        <div className="inline-flex items-center gap-2 bg-[#ffd6e5] text-[#e91e63] px-4 py-2 rounded-full mb-3">
           <span className="text-sm font-semibold">
             💖 Trusted by 10,000+ Women
           </span>
@@ -32,12 +31,12 @@ function Hero() {
         </p>
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start font-semibold">
           <button className="bg-[#e91e63] text-white px-6 py-3 rounded-full hover:scale-105 transition-all duration-300 shadow-md">
-            Start →
+            Start ➜
           </button>
 
-          <button className="border-2 border-[#e91e63] text-[#e91e63] px-6 py-3 rounded-full hover:bg-[#e91e63] hover:text-white transition-all duration-300">
+          <button className="border-2 border-[#e91e63] text-[#e91e63] px-6 py-3 font-semibold rounded-full hover:bg-[#e91e63] hover:text-white transition-all duration-300">
             Safety Guide
           </button>
         </div>
@@ -55,12 +54,6 @@ function Hero() {
     alt="Raksha Safety Hero"
     className="w-110 drop-shadow-2xl"
     whileHover={{ scale: 1.05 }}
-    animate={{ y: [0, -10, 0] }}
-    transition={{
-      duration: 4,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
   />
 </motion.div>
 
