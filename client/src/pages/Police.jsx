@@ -302,14 +302,14 @@ function Police() {
                 behavior: "smooth",
               });
             }}
-            className="bg-[#e91e63] text-white px-6 py-3 rounded-full hover:scale-105 transition"
+            className="bg-[#e91e63] text-white px-6 py-3 font-semibold rounded-full hover:scale-105 transition"
           >
-            Find Nearby Police ➞
+            Find Nearby Police ➜
           </button>
         </div>
 
         <div className="hidden md:block">
-          <img src={policeImg} alt="Police" className="w-110" />
+          <img src={policeImg} alt="Police Image" className="w-130 drop-shadow-2xl" />
         </div>
       </section>
 
