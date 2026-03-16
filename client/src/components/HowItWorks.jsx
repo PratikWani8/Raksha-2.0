@@ -12,7 +12,7 @@ function HowItWorks() {
     <section className="bg-softPink py-24 px-6 text-center">
       <div className="max-w-6xl mx-auto">
 
-        <h2 className="text-4xl font-bold text-primary mb-6">
+        <h2 className="text-4xl font-bold text-[#e91e63] mb-6">
           How Raksha Works
         </h2>
 
@@ -29,9 +29,9 @@ function HowItWorks() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
-              className="bg-white border border-primary rounded-2xl p-8 shadow-md"
+              className="bg-white border border-[#e91e63] rounded-2xl p-8 shadow-md"
             >
-              <div className="w-12 h-12 mx-auto mb-4 bg-primary text-white rounded-full flex items-center justify-center font-bold">
+              <div className="w-12 h-12 mx-auto mb-4 bg-[#e91e63] text-white rounded-full flex items-center justify-center font-bold">
                 {index + 1}
               </div>
               <p className="text-gray-700 font-medium">
