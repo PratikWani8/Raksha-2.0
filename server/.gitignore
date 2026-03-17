@@ -1,0 +1,11 @@
+# node modules
+node_modules/
+
+# .env file for environment variables
+.env
+
+# Uploaded files
+uploads/
+
+# scripts folder for database seeding and other utilities
+scripts/
