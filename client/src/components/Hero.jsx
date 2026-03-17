@@ -1,9 +1,11 @@
 import heroImg from "../assets/r2.0_logo.png";
 import { motion } from "framer-motion";
+import ShinyText from "./ui/ShinyText"; 
 
 function Hero() {
   return (
-     <section className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-6 py-10 md:py-16 gap-12">
+    <section className="flex flex-col md:flex-row items-center justify-between max-w-6xl mx-auto px-6 py-10 md:py-16 gap-12">
+      
       {/* Left Content */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -11,17 +13,28 @@ function Hero() {
         transition={{ duration: 1 }}
         className="max-w-xl text-center md:text-left"
       >
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 bg-[#ffd6e5] text-[#e91e63] px-4 py-2 rounded-full mb-3">
-          <span className="text-sm font-semibold">
-            💖 Trusted by 10,000+ Women
-          </span>
+        <div className="inline-flex items-center gap-2 bg-[#ffd6e5] px-4 py-2 rounded-full mb-3">
+          
+          <ShinyText
+            text="💖 Trusted by 10,000+ Women"
+            className="text-sm font-semibold"
+            speed={4}
+            delay={0}
+            color="#e91e63"
+            shineColor="#ffffff"
+            spread={120}
+            pauseOnHover={false}
+          />
+
         </div>
 
         {/* Heading */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
           Your Personal Smart <br />
-          <span className="text-[#e91e63] audiowide">Safety Protection</span> Companion.
+          <span className="text-[#e91e63] audiowide">
+            Safety Protection
+          </span>{" "}
+          Companion.
         </h1>
 
         {/* Description */}
@@ -44,18 +57,18 @@ function Hero() {
 
       {/* Right Image */}
       <motion.div
-  initial={{ opacity: 0, y: 40 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 1, delay: 0.2 }}
-  className="hidden md:flex justify-center"
->
-  <motion.img
-    src={heroImg}
-    alt="Raksha Safety Hero"
-    className="w-110 drop-shadow-2xl"
-    whileHover={{ scale: 1.05 }}
-  />
-</motion.div>
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        className="hidden md:flex justify-center"
+      >
+        <motion.img
+          src={heroImg}
+          alt="Raksha Safety Hero"
+          className="w-110 drop-shadow-2xl"
+          whileHover={{ scale: 1.05 }}
+        />
+      </motion.div>
 
     </section>
   );
