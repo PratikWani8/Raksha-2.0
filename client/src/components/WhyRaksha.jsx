@@ -1,5 +1,6 @@
 import { ShieldCheck, MapPin, Siren, Lock, Zap, Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import ScrollVelocity from "./ui/ScrollVelocity";
 
 const features = [
   {
@@ -36,7 +37,18 @@ const features = [
 
 function WhyRaksha() {
   return (
-    <section className="bg-white py-20 px-6">
+    <section className="bg-white py-20 px-6 overflow-hidden">
+      <div className="mb-16">
+        <ScrollVelocity
+          texts={[
+            "Raksha • Stay Safe •",
+            "Women Safety • Smart Protection •"
+          ]}
+          velocity={120}
+          className="text-[#e91e63]"
+        />
+      </div>
+
       <div className="max-w-6xl mx-auto text-center">
 
         <h2 className="text-4xl font-bold text-[#e91e63] mb-4">
@@ -52,18 +64,32 @@ function WhyRaksha() {
           {features.map((item, index) => (
             <motion.div
               key={index}
-              whileHover={{ y: -8 }}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-[#fff4f8] border border-[#e91e63] rounded-2xl p-8 text-center shadow-md"
+              viewport={{ once: true }}
+
+              transition={{
+                delay: index * 0.1,
+                duration: 0.4,
+                ease: "easeOut"
+              }}
+
+              whileHover={{
+                y: -10,
+                scale: 1.03,
+                transition: { duration: 0.2 }
+              }}
+
+              className="bg-[#fff4f8] border border-[#e91e63] rounded-2xl p-8 text-center shadow-md hover:shadow-xl transition-shadow duration-200"
             >
               <div className="text-[#e91e63] mb-4 flex justify-center">
                 {item.icon}
               </div>
+
               <h3 className="font-semibold text-lg mb-2 text-[#e91e63]">
                 {item.title}
               </h3>
+
               <p className="text-gray-600 text-sm">
                 {item.desc}
               </p>
