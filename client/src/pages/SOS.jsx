@@ -187,7 +187,17 @@ Tap the button or shake your phone
 
 </motion.div>
 
+<a href="/dashboard">
+<button className="mt-6 w-80 bg-gray-200 py-2 rounded-full hover:bg-gray-300 transition">
+
+⬅ Back to Dashboard
+
+</button>
+</a>
+
 </div>
+
+
 
 )
 
