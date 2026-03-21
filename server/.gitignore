@@ -9,3 +9,6 @@ uploads/
 
 # scripts folder for database seeding and other utilities
 scripts/
+
+# for testing
+models/RandomSOS.js
