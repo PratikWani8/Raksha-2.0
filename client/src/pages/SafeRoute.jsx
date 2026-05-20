@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css"
 import "leaflet-routing-machine"
 import "leaflet.heat"
 import axios from "axios"
+import API from "../api/api"
 
 export default function SafeRoute(){
 
@@ -65,9 +66,9 @@ loadHeatmap()
 // LOAD HEATMAP DATA
 async function loadHeatmap(){
 
-const res = await axios.get(
-"http://localhost:5000/api/heatmap"
-)
+const res = await API.get(
+  "/api/heatmap"
+);
 
 dangerZones = res.data
 
@@ -277,10 +278,10 @@ lng:coords[i].lng
 
 }
 
-const res = await axios.post(
-"http://localhost:5000/api/safe-route",
-{points}
-)
+const res = await API.post(
+  "/api/safe-route",
+  { points }
+);
 
 setLoading(false)
 
@@ -339,7 +340,6 @@ AI Safe Route Navigation
 
 </motion.h1>
 
-
 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
 
 <input
@@ -368,7 +368,6 @@ className="bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-xl p-
 </motion.button>
 
 </div>
-
 
 {danger && (
 
