@@ -4,6 +4,7 @@ import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import "leaflet.heat"
 import { BASE_URL } from "../api/api"
+import API from "../api/api"
 import { AI_API } from "../api/api"
 import io from "socket.io-client"
 
