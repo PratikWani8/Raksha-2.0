@@ -1,5 +1,6 @@
 import { useState, useRef } from "react"
 import { Send, Mic } from "lucide-react"
+import { BASE_URL } from "../api/api"
 import botAvatar from "../assets/raksha_ai_pfp02.jpg";
 
 function Chatbot(){
@@ -80,19 +81,22 @@ const place = geoData.display_name
 
 const username = localStorage.getItem("username") || "Chatbot User"
 
-await fetch("http://localhost:5000/api/sos/start",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-username: username,
-location: place,
-latitude: lat,
-longitude: lng,
-message:"SOS triggered via Raksha AI"
-})
-})
+await fetch(
+  `${BASE_URL}/api/sos/start`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username,
+      location: place,
+      latitude: lat,
+      longitude: lng,
+      message: "SOS triggered via Raksha AI",
+    }),
+  }
+);
 
 addMessage("✅ SOS alert sent!")
 
