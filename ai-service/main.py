@@ -17,8 +17,15 @@ from ultralytics import YOLO
 app = FastAPI()
 
 # ENV
-BACKEND_URL = os.getenv("BACKEND_URL", "")
-CLIENT_URL = os.getenv("CLIENT_URL", "*")
+BACKEND_URL = os.getenv(
+    "BACKEND_URL",
+    "http://localhost:5000"
+)
+
+CLIENT_URL = os.getenv(
+    "CLIENT_URL",
+    "http://localhost:5173"
+)
 
 # CORS 
 app.add_middleware(
@@ -83,7 +90,8 @@ def predict(location: Location):
         risk = model.predict(X)[0]
         score = min(1, risk / 10)
         return {"risk": float(score)}
-    except:
+    except Exception as e:
+        print("Prediction error:", e)
         return {"risk": 0.0}
 
 # FUTURE HOTSPOTS 
@@ -251,7 +259,7 @@ def detect_weapon(frame: Frame):
                         "box": [x1,y1,x2,y2]
                     })
 
-        # send alert (optional)
+        # send alert to backend
         if len(detections) > 0 and BACKEND_URL:
             try:
                 requests.post(f"{BACKEND_URL}/api/ai-alert", json={
