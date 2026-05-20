@@ -1,9 +1,12 @@
 import { useEffect,useRef,useState } from "react"
 import axios from "axios"
+import { BASE_URL } from "../api/api"
 import { io } from "socket.io-client"
 import { motion } from "framer-motion"
 
-const socket = io("http://localhost:5000")
+const socket = io(BASE_URL, {
+  transports: ["websocket"],
+});
 
 export default function LiveEvidence(){
 
@@ -16,34 +19,35 @@ const [live,setLive] = useState(false)
 const [location,setLocation] = useState("Detecting...")
 
 /* FETCH USER FROM DB */
-useEffect(()=>{
+useEffect(() => {
 
-const fetchUser = async()=>{
+  const fetchUser = async () => {
 
-try{
+    try {
 
-const res = await axios.get(
-"http://localhost:5000/api/auth/profile",
-{
-headers:{
-Authorization:`Bearer ${localStorage.getItem("token")}`
-}
-}
-)
+      const res = await API.get(
+        "/api/auth/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-setUser(res.data)
+      setUser(res.data);
 
-}catch(err){
-console.log("User fetch error")
-}
+    } catch (err) {
 
-}
+      console.log("User fetch error:", err);
 
-fetchUser()
+    }
+  };
 
-},[])
+  fetchUser();
 
-/* GET LOCATION (FIXED ✅) */
+}, []);
+
+/* GET LOCATION */
 const detectLocation = ()=>{
 
 return new Promise((resolve)=>{
@@ -76,7 +80,7 @@ resolve("Unknown location")
 /* START LIVE */
 const startLive = async()=>{
 
-const liveLocation = await detectLocation()   // ✅ WAIT for location
+const liveLocation = await detectLocation()   
 setLocation(liveLocation)
 
 const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -93,7 +97,7 @@ socket.emit("start_live",{
 userId:user.userNo,
 name:user.name,
 phone:user.phone,
-location: liveLocation   // ✅ correct location sent
+location: liveLocation   
 })
 
 socket.on("offer",async(data)=>{
