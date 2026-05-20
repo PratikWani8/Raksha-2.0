@@ -1,6 +1,7 @@
 import { useState,useRef } from "react"
 import { motion } from "framer-motion"
 import Swal from "sweetalert2"
+import API from "../api/api"
 
 export default function SOS(){
 const username = localStorage.getItem("username")
@@ -37,103 +38,119 @@ longitude:lon
 }
 
 /* START SOS */
-const startSOS = async()=>{
+const startSOS = async () => {
 
-try{
-const loc = await getLocation()
+  try {
 
-const res = await fetch(
-"http://localhost:5000/api/sos/start",
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
+    const loc = await getLocation();
 
-username,
-location:loc.location,
-latitude:loc.latitude,
-longitude:loc.longitude,
-message:"Help! I am in danger."
+    const res = await API.post(
+      "/api/sos/start",
+      {
+        username,
+        location: loc.location,
+        latitude: loc.latitude,
+        longitude: loc.longitude,
+        message: "Help! I am in danger.",
+      }
+    );
 
-})
-}
-)
+    const data = res.data;
 
-const data = await res.json()
+    if (data.success) {
 
-if(data.success){
-sosIdRef.current = data.sosId
+      sosIdRef.current = data.sosId;
 
-setTracking(true)
+      setTracking(true);
 
-Swal.fire("SOS Activated","Live tracking started","success")
+      Swal.fire(
+        "SOS Activated",
+        "Live tracking started",
+        "success"
+      );
 
-startTracking()
+      startTracking();
+    }
 
-}
+  } catch (err) {
 
-}catch{
-Swal.fire("Error","Location failed","error")
-}
+    console.log("SOS error:", err);
 
-}
+    Swal.fire(
+      "Error",
+      "Location failed",
+      "error"
+    );
+  }
+};
 
 /* START TRACKING */
-const startTracking = ()=>{
+const startTracking = () => {
 
-intervalRef.current = setInterval(async()=>{
+  intervalRef.current = setInterval(async () => {
 
-try{
-const loc = await getLocation()
+    try {
 
-await fetch(
-"http://localhost:5000/api/sos/update",
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
+      const loc = await getLocation();
 
-sosId:sosIdRef.current,
-location:loc.location,
-latitude:loc.latitude,
-longitude:loc.longitude
+      await API.post(
+        "/api/sos/update",
+        {
+          sosId: sosIdRef.current,
+          location: loc.location,
+          latitude: loc.latitude,
+          longitude: loc.longitude,
+        }
+      );
 
-})
-}
-)
+    } catch (err) {
 
-}catch(err){
+      console.log(
+        "Tracking error:",
+        err
+      );
 
-console.log("Tracking error")
+    }
 
-}
-
-},5000)
-
-}
-
+  }, 5000);
+};
 
 /* STOP SOS */
-const stopSOS = async()=>{
+const stopSOS = async () => {
 
-clearInterval(intervalRef.current)
+  try {
 
-await fetch(
-"http://localhost:5000/api/sos/stop",
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-sosId:sosIdRef.current
-})
-}
-)
+    clearInterval(intervalRef.current);
 
-setTracking(false)
+    await API.post(
+      "/api/sos/stop",
+      {
+        sosId: sosIdRef.current,
+      }
+    );
 
-Swal.fire("SOS Stopped","Tracking cancelled","info")
+    setTracking(false);
 
-}
+    Swal.fire(
+      "SOS Stopped",
+      "Tracking cancelled",
+      "info"
+    );
+
+  } catch (err) {
+
+    console.log(
+      "Stop SOS error:",
+      err
+    );
+
+    Swal.fire(
+      "Error",
+      "Failed to stop SOS",
+      "error"
+    );
+  }
+};
 
 return(
 
@@ -196,8 +213,6 @@ Tap the button or shake your phone
 </a>
 
 </div>
-
-
 
 )
 
