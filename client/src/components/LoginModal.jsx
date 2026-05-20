@@ -4,6 +4,7 @@ import { Turnstile } from "@marsidev/react-turnstile"
 import { signInWithPopup } from "firebase/auth"
 import RegisterModal from "./RegisterModal"
 import { auth, provider } from "../firebase"
+import { BASE_URL } from "../api/api"
 
 import {
 Dialog,
@@ -41,19 +42,19 @@ const password = formData.get("password")
 try{
 
 const res = await fetch(
-"http://localhost:5000/api/auth/login",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-email,
-password,
-token:captchaToken
-})
-}
-)
+  `${BASE_URL}/api/auth/login`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email,
+      password,
+      token: captchaToken,
+    }),
+  }
+);
 
 const data = await res.json()
 
@@ -62,7 +63,6 @@ if(data.userId){
 localStorage.setItem("token",data.token)
 localStorage.setItem("userId",data.userId)
 localStorage.setItem("username",data.name)
-
 
 window.location.href="/dashboard"
 
@@ -96,19 +96,19 @@ const result = await signInWithPopup(auth,provider)
 const user = result.user
 
 const res = await fetch(
-"http://localhost:5000/api/auth/google-register",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-name:user.displayName,
-email:user.email,
-token:captchaToken
-})
-}
-)
+  `${BASE_URL}/api/auth/google-register`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: user.displayName,
+      email: user.email,
+      token: captchaToken,
+    }),
+  }
+);
 
 const data = await res.json()
 
