@@ -1,5 +1,6 @@
 import { useState,useRef,useEffect } from "react"
 import { motion } from "framer-motion"
+import API from "../api/api"
 import Swal from "sweetalert2"
 
 export default function GuestSOS(){
@@ -10,9 +11,7 @@ const [tracking,setTracking] = useState(false)
 const sosIdRef = useRef(null)
 const intervalRef = useRef(null)
 
-
 /* GET LOCATION */
-
 const getLocation = ()=>{
 
 return new Promise((resolve,reject)=>{
@@ -46,121 +45,115 @@ longitude:lon
 
 }
 
-
 /* START SOS */
+const startSOS = async () => {
 
-const startSOS = async()=>{
+  try {
 
-try{
+    const loc = await getLocation();
 
-const loc = await getLocation()
+    const res = await API.post(
+      "/api/guest-sos/start",
+      {
+        location: loc.location,
+        latitude: loc.latitude,
+        longitude: loc.longitude,
+        message,
+      }
+    );
 
-const res = await fetch(
-"http://localhost:5000/api/guest-sos/start",
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-location:loc.location,
-latitude:loc.latitude,
-longitude:loc.longitude,
-message
-})
-}
-)
+    const data = res.data;
 
-const data = await res.json()
+    if (data.success) {
 
-if(data.success){
+      sosIdRef.current = data.sosId;
 
-sosIdRef.current = data.sosId
+      setTracking(true);
 
-setTracking(true)
+      Swal.fire(
+        "SOS Activated",
+        "Live tracking started",
+        "success"
+      );
 
-Swal.fire(
-"SOS Activated",
-"Live tracking started",
-"success"
-)
+      startTracking();
+    }
 
-startTracking()
+  } catch (err) {
 
-}
+    console.log("SOS error:", err);
 
-}catch{
-
-Swal.fire("Error","Location failed","error")
-
-}
-
-}
-
+    Swal.fire(
+      "Error",
+      "Location failed",
+      "error"
+    );
+  }
+};
 
 /* UPDATE LOCATION EVERY 5 SECONDS */
+const startTracking = () => {
 
-const startTracking = ()=>{
+  intervalRef.current = setInterval(async () => {
 
-intervalRef.current = setInterval(async()=>{
+    try {
 
-try{
+      const loc = await getLocation();
 
-const loc = await getLocation()
+      await API.post(
+        "/api/guest-sos/update",
+        {
+          sosId: sosIdRef.current,
+          location: loc.location,
+          latitude: loc.latitude,
+          longitude: loc.longitude,
+        }
+      );
 
-await fetch(
-"http://localhost:5000/api/guest-sos/update",
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-sosId:sosIdRef.current,
-location:loc.location,
-latitude:loc.latitude,
-longitude:loc.longitude
-})
-}
-)
+    } catch (err) {
 
-}catch(err){
+      console.log("Tracking error:", err);
 
-console.log("Tracking error")
+    }
 
-}
-
-},5000)
-
-}
-
+  }, 5000);
+};
 
 /* STOP SOS */
+const stopSOS = async () => {
 
-const stopSOS = async()=>{
+  try {
 
-clearInterval(intervalRef.current)
+    clearInterval(intervalRef.current);
 
-await fetch(
-"http://localhost:5000/api/guest-sos/stop",
-{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-sosId:sosIdRef.current
-})
-}
-)
+    await API.post(
+      "/api/guest-sos/stop",
+      {
+        sosId: sosIdRef.current,
+      }
+    );
 
-setTracking(false)
+    setTracking(false);
 
-Swal.fire(
-"SOS Stopped",
-"Tracking cancelled",
-"info"
-)
+    Swal.fire(
+      "SOS Stopped",
+      "Tracking cancelled",
+      "info"
+    );
 
-}
+  } catch (err) {
 
+    console.log("Stop SOS error:", err);
+
+    Swal.fire(
+      "Error",
+      "Failed to stop SOS",
+      "error"
+    );
+  }
+};
 
 /* SHAKE DETECTION */
-
 useEffect(()=>{
 
 let lastX=0,lastY=0,lastZ=0
@@ -207,7 +200,6 @@ window.addEventListener("devicemotion",detectShake)
 return ()=>window.removeEventListener("devicemotion",detectShake)
 
 },[])
-
 
 return(
 
