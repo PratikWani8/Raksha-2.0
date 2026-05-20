@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { AI_BASE_URL } from "../api/api";
 import { ShoppingCart, Search, X, Minus, CheckCircle } from "lucide-react";
 
 // images
@@ -54,19 +55,26 @@ export default function EcommercePage() {
   }, [cart]);
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      try {
-        const res = await axios.post("http://localhost:8000/predict", {
+
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    try {
+
+      const res = await axios.post(
+        `${AI_BASE_URL}/predict`,
+        {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
-        });
+        }
+      );
 
-        setRiskLevel(res.data.risk); 
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  }, []);
+      setRiskLevel(res.data.risk);
+
+    } catch (err) {
+      console.error("Prediction error:", err);
+    }
+  });
+
+}, []);
 
   const getDynamicDiscount = (product) => {
     const extra = riskLevel * 50; // scale
