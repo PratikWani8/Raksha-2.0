@@ -5,6 +5,7 @@ import { signInWithPopup } from "firebase/auth"
 import confetti from "canvas-confetti"
 import LoginModal from "./LoginModal"
 import { auth, provider } from "../firebase"
+import { BASE_URL } from "../api/api"
 
 import {
 Dialog,
@@ -100,22 +101,22 @@ setLoading(true)
 
 try{
 
-const res=await fetch(
-"http://localhost:5000/api/auth/register",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-name,
-email,
-phone,
-password,
-token:captchaToken
-})
-}
-)
+const res = await fetch(
+  `${BASE_URL}/api/auth/register`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      phone,
+      password,
+      token: captchaToken,
+    }),
+  }
+);
 
 const data=await res.json()
 
@@ -164,20 +165,20 @@ const result=await signInWithPopup(auth,provider)
 
 const user=result.user
 
-const res=await fetch(
-"http://localhost:5000/api/auth/google-register",
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-name:user.displayName,
-email:user.email,
-token:captchaToken
-})
-}
-)
+const res = await fetch(
+  `${BASE_URL}/api/auth/google-register`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: user.displayName,
+      email: user.email,
+      token: captchaToken,
+    }),
+  }
+);
 
 const data=await res.json()
 
